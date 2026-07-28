@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="border-t border-[color:var(--color-line)] mt-24">
+  <div class="max-w-5xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[color:var(--color-muted)]">
+    <p class="mono">© {new Date().getFullYear()} {site.name}</p>
+    <div class="flex items-center gap-5 mono">
+      <a href={site.links.github} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">GitHub</a>
+      <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">LinkedIn</a>
+      <a href={site.links.youtube} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">YouTube</a>
+      <a href={`mailto:${site.email}`} class="hover:text-[color:var(--color-lime)]">Email</a>
+    </div>
+  </div>
+</footer>

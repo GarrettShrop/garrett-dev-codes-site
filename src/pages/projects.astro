@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Projects">
+  <section class="max-w-5xl mx-auto px-6 pt-16 pb-24">
+    <p class="mono text-sm text-[color:var(--color-lime)] mb-2">// projects</p>
+    <h1 class="text-4xl font-semibold mb-10">Things I've built</h1>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      {
+        projects.map((project) => (
+          <div data-reveal class="card p-6 flex flex-col">
+            <h2 class="text-lg font-medium mb-2">{project.data.title}</h2>
+            <p class="text-sm text-[color:var(--color-muted)] leading-relaxed flex-1">{project.data.summary}</p>
+            {project.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-2 mt-4">
+                {project.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+            {project.data.url && (
+              <a
+                href={project.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mono text-sm text-[color:var(--color-lime)] mt-4 inline-flex items-center gap-1 hover:underline"
+              >
+                Visit →
+              </a>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

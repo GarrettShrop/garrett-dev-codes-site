@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { skillGroups, recommendedTools } from '../data/site';
+---
+
+<Layout title="Skills">
+  <section class="max-w-5xl mx-auto px-6 pt-16 pb-16">
+    <p class="mono text-sm text-[color:var(--color-lime)] mb-2">// skills</p>
+    <h1 class="text-4xl font-semibold mb-10">What I work with</h1>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      {
+        skillGroups.map((group) => (
+          <div data-reveal class="card p-6">
+            <h2 class="mono text-xs text-[color:var(--color-muted)] uppercase tracking-wide mb-3">{group.label}</h2>
+            <div class="flex flex-wrap gap-2">
+              {group.skills.map((skill) => (
+                <span class="tag">{skill}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-24">
+    <div data-reveal class="card p-8">
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">// tools I recommend</p>
+      {
+        recommendedTools.length === 0 ? (
+          <p class="text-sm text-[color:var(--color-muted)]">
+            Still curating this list — check back soon for the tools and platforms I'd actually
+            vouch for to a client or another dev.
+          </p>
+        ) : (
+          <ul class="space-y-3 text-sm">
+            {recommendedTools.map((tool) => (
+              <li>
+                <span class="font-medium">{tool.url ? <a href={tool.url} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">{tool.name}</a> : tool.name}</span>
+                <span class="text-[color:var(--color-muted)]"> — {tool.note}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+</Layout>

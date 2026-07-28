@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-ink: #0a0c0e;
+  --color-panel: #12161a;
+  --color-panel-2: #191f24;
+  --color-line: #262e35;
+  --color-paper: #eceae4;
+  --color-muted: #93a1ac;
+  --color-lime: #c8ff5e;
+  --color-coral: #ff7a59;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-display);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(200, 255, 94, 0.08), transparent 45%),
+      radial-gradient(circle at 85% 20%, rgba(255, 122, 89, 0.06), transparent 40%),
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: auto, auto, 56px 56px, 56px 56px;
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+
+  a {
+    color: inherit;
+  }
+}
+
+@layer components {
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .glow-text {
+    color: var(--color-lime);
+    text-shadow: 0 0 24px rgba(200, 255, 94, 0.35);
+  }
+
+  .card {
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    color: var(--color-lime);
+    background: rgba(200, 255, 94, 0.08);
+    border: 1px solid rgba(200, 255, 94, 0.25);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+  }
+}

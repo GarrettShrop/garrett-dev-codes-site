@@ -1,0 +1,43 @@
+---
+const links = [
+  { href: '/', label: 'About' },
+  { href: '/experience', label: 'Experience' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/streaming', label: 'Streaming' },
+];
+
+const current = new URL(Astro.request.url).pathname;
+---
+
+<header class="sticky top-0 z-40 backdrop-blur bg-[color-mix(in_oklab,var(--color-ink)_85%,transparent)] border-b border-[color:var(--color-line)]">
+  <nav class="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
+    <a href="/" class="mono text-sm tracking-tight text-[color:var(--color-paper)]">
+      <span class="glow-text">garrett</span>devcodes
+    </a>
+    <ul class="hidden sm:flex items-center gap-6 text-sm">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                'mono transition-colors hover:text-[color:var(--color-lime)]',
+                current === link.href ? 'text-[color:var(--color-lime)]' : 'text-[color:var(--color-muted)]',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <button
+      type="button"
+      data-chat-open
+      class="mono text-xs px-3 py-1.5 rounded-full border border-[color:var(--color-lime)] text-[color:var(--color-lime)] hover:bg-[color:var(--color-lime)] hover:text-[color:var(--color-ink)] transition-colors"
+    >
+      Ask me anything
+    </button>
+  </nav>
+</header>

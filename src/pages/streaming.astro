@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+---
+
+<Layout title="Streaming">
+  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+    <p class="mono text-sm text-[color:var(--color-lime)] mb-2">// streaming</p>
+    <h1 class="text-4xl font-semibold mb-6">Coding on camera</h1>
+    <p class="text-[color:var(--color-muted)] leading-relaxed mb-8">
+      I post coding sessions and build-alongs on YouTube under garrettdevcodes — real projects,
+      real bugs, no edited-out mistakes.
+    </p>
+
+    <div data-reveal class="card p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <p class="font-medium">YouTube — garrettdevcodes</p>
+        <p class="text-sm text-[color:var(--color-muted)]">Coding streams and build-alongs</p>
+      </div>
+      <a
+        href={site.links.youtube}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mono text-sm px-4 py-2 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 transition-opacity"
+      >
+        Watch on YouTube →
+      </a>
+    </div>
+  </section>
+</Layout>

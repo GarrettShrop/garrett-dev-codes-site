@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+import { getCollection } from 'astro:content';
+
+const experience = await getCollection('experience');
+const current = experience.find((e) => e.data.current);
+---
+
+<Layout title="About">
+  <section data-hero class="max-w-5xl mx-auto px-6 pt-20 pb-16">
+    <p data-hero-item class="mono text-sm text-[color:var(--color-lime)] mb-4">$ whoami</p>
+    <h1 data-hero-item class="text-5xl sm:text-6xl font-semibold tracking-tight leading-[1.05]">
+      Garrett Shropshire
+    </h1>
+    <p data-hero-item class="mt-4 text-xl text-[color:var(--color-muted)] max-w-2xl">
+      Software engineer, BI analyst, and one-person tech shop — currently
+      <span class="glow-text">{current?.data.role}</span> at <span class="text-[color:var(--color-paper)]">{current?.data.org}</span>.
+    </p>
+
+    <div data-hero-item class="mt-8 flex flex-wrap gap-3">
+      <a href="/experience" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
+        View experience
+      </a>
+      <a href="/projects" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
+        View projects
+      </a>
+      <button type="button" data-chat-open class="mono text-sm px-4 py-2 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 transition-opacity">
+        Ask me anything →
+      </button>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-16">
+    <div data-reveal class="card p-8">
+      <p class="mono text-xs text-[color:var(--color-muted)] mb-4">// about</p>
+      <div class="space-y-4 text-[color:var(--color-paper)] leading-relaxed whitespace-pre-line">
+        {site.bio}
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-24 grid sm:grid-cols-3 gap-4">
+    <div data-reveal class="card p-6">
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Current role</p>
+      <p class="font-medium">{current?.data.role}</p>
+      <p class="text-sm text-[color:var(--color-muted)]">{current?.data.org}</p>
+    </div>
+    <div data-reveal class="card p-6">
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Side business</p>
+      <p class="font-medium">GS46 Tech</p>
+      <p class="text-sm text-[color:var(--color-muted)]">Founder, since Aug 2023</p>
+    </div>
+    <div data-reveal class="card p-6">
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Currently learning</p>
+      <p class="font-medium">Cybersecurity</p>
+      <p class="text-sm text-[color:var(--color-muted)]">Plus deeper RAG + multi-agent work</p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,133 @@
+---
+const MAX_LEN = 500;
+---
+
+<div
+  data-chat-panel
+  class="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-auto sm:w-96 hidden flex-col card shadow-2xl shadow-black/50 max-h-[75vh]"
+>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-[color:var(--color-line)]">
+    <p class="mono text-sm text-[color:var(--color-lime)]">Ask me anything about Garrett</p>
+    <button type="button" data-chat-close aria-label="Close chat" class="text-[color:var(--color-muted)] hover:text-[color:var(--color-paper)] text-lg leading-none">×</button>
+  </div>
+
+  <div data-chat-messages class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-sm min-h-40">
+    <p class="text-[color:var(--color-muted)]">
+      Hey, I'm a small assistant scoped to public info Garrett's shared — his bio, experience,
+      projects, and skills. Ask away.
+    </p>
+  </div>
+
+  <form data-chat-form class="border-t border-[color:var(--color-line)] p-3 flex flex-col gap-2">
+    <textarea
+      data-chat-input
+      rows="2"
+      maxlength={MAX_LEN}
+      placeholder="What has Garrett built recently?"
+      class="w-full resize-none bg-[color:var(--color-panel-2)] border border-[color:var(--color-line)] rounded-lg px-3 py-2 text-sm text-[color:var(--color-paper)] placeholder:text-[color:var(--color-muted)] focus:outline-none focus:border-[color:var(--color-lime)]"
+    ></textarea>
+    <div class="flex items-center justify-between">
+      <span data-chat-count class="mono text-[10px] text-[color:var(--color-muted)]">0/{MAX_LEN}</span>
+      <button
+        type="submit"
+        data-chat-send
+        class="mono text-xs px-3 py-1.5 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        Send
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const MAX_LEN = 500;
+  const panel = document.querySelector<HTMLDivElement>('[data-chat-panel]');
+  const openButtons = document.querySelectorAll<HTMLButtonElement>('[data-chat-open]');
+  const closeButton = document.querySelector<HTMLButtonElement>('[data-chat-close]');
+  const messages = document.querySelector<HTMLDivElement>('[data-chat-messages]');
+  const form = document.querySelector<HTMLFormElement>('[data-chat-form]');
+  const input = document.querySelector<HTMLTextAreaElement>('[data-chat-input]');
+  const count = document.querySelector<HTMLSpanElement>('[data-chat-count]');
+  const sendButton = document.querySelector<HTMLButtonElement>('[data-chat-send]');
+
+  type Message = { role: 'user' | 'assistant'; content: string };
+  const history: Message[] = [];
+  const MAX_TURNS = 12;
+
+  function open() {
+    panel?.classList.remove('hidden');
+    panel?.classList.add('flex');
+    input?.focus();
+  }
+
+  function close() {
+    panel?.classList.add('hidden');
+    panel?.classList.remove('flex');
+  }
+
+  openButtons.forEach((btn) => btn.addEventListener('click', open));
+  closeButton?.addEventListener('click', close);
+
+  input?.addEventListener('input', () => {
+    if (count) count.textContent = `${input.value.length}/${MAX_LEN}`;
+  });
+
+  function renderMessage(role: Message['role'], content: string) {
+    const bubble = document.createElement('div');
+    bubble.className =
+      role === 'user'
+        ? 'ml-auto max-w-[85%] rounded-lg rounded-br-sm bg-[color:var(--color-lime)] text-[color:var(--color-ink)] px-3 py-2'
+        : 'mr-auto max-w-[85%] rounded-lg rounded-bl-sm bg-[color:var(--color-panel-2)] border border-[color:var(--color-line)] px-3 py-2 text-[color:var(--color-paper)]';
+    bubble.textContent = content;
+    messages?.appendChild(bubble);
+    if (messages) messages.scrollTop = messages.scrollHeight;
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const text = input?.value.trim();
+    if (!text || !input || !sendButton) return;
+
+    renderMessage('user', text);
+    history.push({ role: 'user', content: text });
+    if (history.length > MAX_TURNS) history.splice(0, history.length - MAX_TURNS);
+
+    input.value = '';
+    if (count) count.textContent = `0/${MAX_LEN}`;
+    input.disabled = true;
+    sendButton.disabled = true;
+
+    const thinking = document.createElement('p');
+    thinking.className = 'mr-auto text-[color:var(--color-muted)] mono text-xs';
+    thinking.textContent = 'thinking…';
+    messages?.appendChild(thinking);
+    if (messages) messages.scrollTop = messages.scrollHeight;
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+
+      thinking.remove();
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        renderMessage('assistant', err.error ?? "Something went wrong on my end — try again in a moment.");
+        return;
+      }
+
+      const data = await response.json();
+      renderMessage('assistant', data.reply);
+      history.push({ role: 'assistant', content: data.reply });
+    } catch {
+      thinking.remove();
+      renderMessage('assistant', "Couldn't reach the server — check your connection and try again.");
+    } finally {
+      input.disabled = false;
+      sendButton.disabled = false;
+      input.focus();
+    }
+  });
+</script>
