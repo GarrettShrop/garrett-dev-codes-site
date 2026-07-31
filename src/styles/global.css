@@ -25,13 +25,28 @@
     background: var(--color-ink);
     color: var(--color-paper);
     font-family: var(--font-display);
+    position: relative;
+    isolation: isolate;
+  }
+
+  /*
+    The static backdrop lives on a `position: fixed` pseudo-element instead of
+    `background-attachment: fixed` on body. Fixed-attachment backgrounds force
+    a main-thread repaint of that background on every scroll frame in most
+    engines, which is what caused the janky/"scrolling inside a box" feel —
+    a fixed-position layer is composited once on the GPU and never repainted.
+  */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     background-image:
       radial-gradient(circle at 15% 0%, rgba(200, 255, 94, 0.08), transparent 45%),
       radial-gradient(circle at 85% 20%, rgba(255, 122, 89, 0.06), transparent 40%),
       linear-gradient(var(--color-line) 1px, transparent 1px),
       linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
     background-size: auto, auto, 56px 56px, 56px 56px;
-    background-attachment: fixed;
   }
 
   ::selection {
