@@ -12,6 +12,7 @@
   --color-muted: #93a1ac;
   --color-lime: #c8ff5e;
   --color-coral: #ff7a59;
+  --color-grid: rgba(160, 175, 190, 0.05);
 }
 
 @layer base {
@@ -44,8 +45,8 @@
     background-image:
       radial-gradient(circle at 15% 0%, rgba(200, 255, 94, 0.08), transparent 45%),
       radial-gradient(circle at 85% 20%, rgba(255, 122, 89, 0.06), transparent 40%),
-      linear-gradient(var(--color-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
     background-size: auto, auto, 56px 56px, 56px 56px;
   }
 
@@ -67,6 +68,14 @@
   .glow-text {
     color: var(--color-lime);
     text-shadow: 0 0 24px rgba(200, 255, 94, 0.35);
+  }
+
+  /* Lifts text off the grid backdrop with a soft dark halo, for copy that
+     isn't already sitting inside a solid .card panel (e.g. the hero). */
+  .text-scrim {
+    text-shadow:
+      0 2px 20px rgba(10, 12, 14, 0.9),
+      0 1px 4px rgba(10, 12, 14, 0.95);
   }
 
   .card {

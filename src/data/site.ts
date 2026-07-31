@@ -3,7 +3,7 @@ export const site = {
   tagline: 'Software Engineer & AI Solutions Analyst',
   location: 'Monterey, CA',
   email: 'garrettshropshire546@gmail.com',
-  bio: `I'm a software engineer with 2+ years shipping enterprise-scale applications — an enterprise quoting portal serving 400+ users and $5M+ in orders, ML forecasting pipelines, AI usage dashboards, plus side projects built nights and weekends. I currently work as an AI Solutions Analyst at B Riley. Before that I was a BI Analyst at Enlyte, and before that a Software Engineer at dKomplex.
+  bio: `I'm a software engineer with 2+ years shipping enterprise-scale applications — an enterprise quoting portal serving 400+ users and $5M+ in orders, ML forecasting pipelines, AI usage dashboards, plus side projects built nights and weekends. I currently lead the AI initiative at B Riley as an AI Solutions Analyst, working with executives and business leaders across the company to build automated workflows powered by Claude and other frontier models. Before that I was a BI Analyst at Enlyte, and before that a Software Engineer at dKomplex.
 
 On the side I run GS46 Tech, a one-person Central Coast tech business doing web design, computer repair, and AI automation for local clients. Right now I'm building out my skills in cybersecurity and spending a lot of time in RAG systems and multi-agent orchestration — I like sitting at the intersection of engineering and business, translating messy requirements into things that actually ship.`,
   links: {
@@ -24,6 +24,9 @@ export const skillGroups = [
       'Claude Code',
       'Claude Cowork',
       'Anthropic API',
+      'OpenClaw',
+      'OpenAI / ChatGPT models',
+      'Google Gemini models',
       'Multi-Agent Orchestration',
       'RAG Architecture',
       'MCP Server Integration',

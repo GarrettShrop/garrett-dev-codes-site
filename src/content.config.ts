@@ -20,6 +20,7 @@ const projects = defineCollection({
     title: z.string(),
     summary: z.string(),
     url: z.string().url().optional(),
+    appStoreUrl: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
     order: z.number(),
     featured: z.boolean().default(true),

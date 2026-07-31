@@ -5,4 +5,4 @@ startDate: "2026-07-27"
 current: true
 ---
 
-Starting July 27, 2026. Details on scope and impact will land here once the role is underway.
+Leading B Riley's AI initiative — working directly with business executives and leaders across the company to build automated workflows and processes powered by the latest AI models, with Claude as the primary tool, to drive productivity and efficiency company-wide.

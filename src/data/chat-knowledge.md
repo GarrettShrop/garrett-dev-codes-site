@@ -12,8 +12,13 @@ portal serving 400+ users and processing $5M+ in orders, ML forecasting
 pipelines, and AI usage dashboards, plus personal side projects built nights
 and weekends.
 
-He currently works as an AI Solutions Analyst at B Riley (starting July 27,
-2026). Before that he was a Business Intelligence Analyst 2 at Enlyte
+He currently leads B Riley's AI initiative as an AI Solutions Analyst
+(starting July 27, 2026), working with business executives and leaders
+across the company to build automated workflows and processes powered by
+Claude and other frontier AI models to improve productivity and efficiency
+company-wide. Specifics of that work are internal to B Riley and shouldn't
+be speculated about beyond this general description. Before that he was a
+Business Intelligence Analyst 2 at Enlyte
 (Feb 2026 – Jul 17, 2026), and before that a Software Engineer at dKomplex,
 Inc. (Aug 2023 – Feb 2026, starting as an intern).
 
@@ -29,8 +34,11 @@ focused on full-stack development and algorithms.
 
 ## Experience
 
-- **AI Solutions Analyst, B Riley** (Jul 2026 – present): just starting; scope
-  not yet public.
+- **AI Solutions Analyst, B Riley** (Jul 2026 – present): leads the AI
+  initiative, working with executives and business leaders to build
+  automated workflows and processes using Claude and other AI models to
+  drive productivity and efficiency across the company. Internal specifics
+  aren't public.
 - **Business Intelligence Analyst 2, Enlyte** (Feb 2026 – Jul 2026): built an
   AI Usage Dashboard in Hex combining usage data from 10 AI tools into
   adoption metrics for execs/managers; used Snowflake CLI, Hex CLI, and
@@ -55,21 +63,30 @@ focused on full-stack development and algorithms.
   endpoints — helping users optimize paycheck allocation across debt
   payments and savings goals. Tracks spending/subscriptions/business
   expenses automatically via Plaid, backed by PostgreSQL and Clerk auth.
+  Site: myfundflow.app. On the US App Store as "MyFundFlow: Easy Budgeting".
 - **GS46 Tech**: Garrett's own local tech business (gs46tech.com) —
   computer repair, network setup, web design, and AI automation on
   California's Central Coast since 2023.
-- **Limo LLC**: a client website Garrett built and shipped through GS46 Tech.
-- **Advisors 360**: a client website Garrett built through GS46 Tech.
+- **Limoscene LLC**: a client site Garrett redesigned and continues to
+  manage through GS46 Tech. Live at limoscenellc.com.
+- **Advisors 360**: a new GS46 Tech client engagement to rebuild the site
+  at advisors360pwm.com. That domain is currently still run by the client's
+  previous provider — the new build isn't live yet, so don't imply the
+  current site at that domain is Garrett's work.
 
 ## Skills
 
-Python, SQL, TypeScript, JavaScript, Claude Code, Claude Cowork, Anthropic
-API, multi-agent orchestration, RAG architecture, MCP server integration,
-prompt engineering, human-in-the-loop workflows, LLM integration, PostgreSQL,
+Python, SQL, TypeScript, JavaScript, Claude Code (big advocate), Claude
+Cowork, Anthropic API, OpenClaw, OpenAI/ChatGPT models, Google Gemini models,
+multi-agent orchestration, RAG architecture, MCP server integration, prompt
+engineering, human-in-the-loop workflows, LLM integration, PostgreSQL,
 MySQL, Supabase (with row-level security), Snowflake, Node.js, Express.js,
 REST APIs, Azure Functions, C#, AWS, GitHub Actions, CI/CD, Docker, Git,
 Jenkins, React, Next.js, Tailwind CSS, Astro. Currently learning
-cybersecurity.
+cybersecurity. Garrett has hands-on experience across all the major LLM
+providers (Anthropic Claude, OpenAI, Google Gemini) and multi-agent
+orchestration tooling (OpenClaw), with Claude Code and Claude Cowork as his
+primary daily tools.
 
 ## Where to find more / links
 
@@ -77,6 +94,8 @@ cybersecurity.
 - LinkedIn: linkedin.com/in/garrett-shropshire
 - YouTube (coding streams): youtube.com/@garrettdevcodes
 - GS46 Tech: gs46tech.com
+- Fund Flow: myfundflow.app
+- Limoscene LLC: limoscenellc.com
 
 ## Rules for the assistant
 
