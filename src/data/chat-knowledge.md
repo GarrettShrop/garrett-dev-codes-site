@@ -12,21 +12,25 @@ portal serving 400+ users and processing $5M+ in orders, ML forecasting
 pipelines, and AI usage dashboards, plus personal side projects built nights
 and weekends.
 
-He currently leads B Riley's AI initiative as an AI Solutions Analyst
-(starting July 27, 2026), working with business executives and leaders
-across the company to build automated workflows and processes powered by
-Claude and other frontier AI models to improve productivity and efficiency
-company-wide. Specifics of that work are internal to B Riley and shouldn't
-be speculated about beyond this general description. Before that he was a
-Business Intelligence Analyst 2 at Enlyte
-(Feb 2026 – Jul 17, 2026), and before that a Software Engineer at dKomplex,
-Inc. (Aug 2023 – Feb 2026, starting as an intern).
+He currently leads B Riley's AI initiative as an AI Solutions Analyst,
+based in Los Angeles, CA (remote), starting July 27, 2026 — working with
+business executives and leaders across the company to build automated
+workflows and processes powered by Claude and other frontier AI models to
+improve productivity and efficiency company-wide. Specifics of that work
+are internal to B Riley and shouldn't be speculated about beyond this
+general description. Before that he was a Business Intelligence Analyst 2
+at Enlyte, based in San Diego, CA (remote) (Feb 2026 – Jul 17, 2026), and
+before that Software Engineer 2 then Software Engineer 1 at dKomplex IT
+(Mar 2024 – Feb 2026), after starting there as an intern (Aug 2023 – Mar
+2024, hybrid in Monterey, CA).
 
-On the side, he runs GS46 Tech, a one-person tech business on California's
+On the side, he owns GS46 Tech, a one-person tech business on California's
 Central Coast (Hollister, Gilroy, Morgan Hill, Salinas, Monterey) doing
 computer repair, network setup, and web design/AI automation for local
-clients. He's currently building out his cybersecurity skills and spends a
-lot of time in RAG systems and multi-agent orchestration.
+clients, and he's the founder & lead developer of MyFundFlow, a personal
+finance app (running since Jan 2024). He's currently building out his
+cybersecurity skills and spends a lot of time in RAG systems and
+multi-agent orchestration.
 
 He has a B.S. in Computer Science from California State University, Monterey
 Bay (2018–2023), and did a study-abroad term at the University of Birmingham
@@ -34,31 +38,38 @@ focused on full-stack development and algorithms.
 
 ## Experience
 
-- **AI Solutions Analyst, B Riley** (Jul 2026 – present): leads the AI
-  initiative, working with executives and business leaders to build
-  automated workflows and processes using Claude and other AI models to
-  drive productivity and efficiency across the company. Internal specifics
-  aren't public.
-- **Business Intelligence Analyst 2, Enlyte** (Feb 2026 – Jul 2026): built an
-  AI Usage Dashboard in Hex combining usage data from 10 AI tools into
-  adoption metrics for execs/managers; used Snowflake CLI, Hex CLI, and
-  GitHub Copilot CLI to analyze data and generate custom alerts.
-- **Founder & Lead Developer, GS46 Tech** (Aug 2023 – present): runs his own
+- **AI Solutions Analyst, B Riley** (Jul 2026 – present, Los Angeles/remote):
+  leads the AI initiative, working with executives and business leaders to
+  build automated workflows and processes using Claude and other AI models
+  to drive productivity and efficiency across the company. Internal
+  specifics aren't public.
+- **Business Intelligence Analyst 2, Enlyte** (Feb 2026 – Jul 2026, San
+  Diego/remote): built an AI Usage Dashboard in Hex combining usage data
+  from 10 AI tools into adoption metrics for execs/managers; used Snowflake
+  CLI, Hex CLI, and GitHub Copilot CLI to analyze data and generate custom
+  alerts.
+- **Owner, GS46 Tech** (Aug 2023 – present, Central Coast CA): runs his own
   local tech services business — computer repair, network setup, web design,
   AI automation — direct to customers, no call center.
-- **Software Engineer, dKomplex, Inc.** (Mar 2024 – Feb 2026): led a team of 5
-  engineers building ML forecasting models (AutoML) under full Agile SDLC;
-  built a custom web scraper with AI-assisted text cleanup; implemented
-  CI/CD with Azure DevOps and Jenkins; shipped a Predictive Scoring ML
-  feature in Dynamics 365.
-- **Software Engineer Intern, dKomplex IT** (Aug 2023 – Mar 2024): led a team
-  of three building a custom web crawler using Python and Microsoft Power
-  Platform; drove a 98% increase in data processing efficiency by
-  integrating OpenAI's API with NLP; optimized Azure Functions.
+- **Founder & Lead Developer, MyFundFlow** (Jan 2024 – present): built and
+  runs MyFundFlow end to end — see Projects for details. Live on the US App
+  Store as "MyFundFlow: Easy Budgeting."
+- **Software Engineer 2, dKomplex IT** (Mar 2025 – Feb 2026, Monterey
+  County/remote): led a team of 5 engineers building ML forecasting models
+  (AutoML) under full Agile SDLC; shipped a Predictive Scoring ML feature in
+  Dynamics 365.
+- **Software Engineer 1, dKomplex IT** (Mar 2024 – Mar 2025, Monterey
+  County/remote): built a custom web scraper with AI-assisted text cleanup;
+  implemented CI/CD with Azure DevOps and Jenkins.
+- **Software Engineer Intern, dKomplex IT** (Aug 2023 – Mar 2024, Monterey
+  CA, hybrid): led a team of three building a custom web crawler using
+  Python and Microsoft Power Platform; drove a 98% increase in data
+  processing efficiency by integrating OpenAI's API with NLP; optimized
+  Azure Functions.
 
 ## Projects
 
-- **Fund Flow**: a full-stack personal finance platform — React/TypeScript
+- **MyFundFlow**: a full-stack personal finance platform — React/TypeScript
   frontend, React Native mobile app, Node.js/Express backend with 15+ REST
   endpoints — helping users optimize paycheck allocation across debt
   payments and savings goals. Tracks spending/subscriptions/business
@@ -92,9 +103,9 @@ primary daily tools.
 
 - GitHub: github.com/GarrettShrop
 - LinkedIn: linkedin.com/in/garrett-shropshire
-- YouTube (coding streams): youtube.com/@garrettdevcodes
+- YouTube (coding streams): youtube.com/@GS46Codes
 - GS46 Tech: gs46tech.com
-- Fund Flow: myfundflow.app
+- MyFundFlow: myfundflow.app
 - Limoscene LLC: limoscenellc.com
 
 ## Rules for the assistant

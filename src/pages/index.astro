@@ -4,7 +4,11 @@ import { site } from '../data/site';
 import { getCollection } from 'astro:content';
 
 const experience = await getCollection('experience');
-const current = experience.find((e) => e.data.current);
+// Multiple entries are "current" (job, GS46 Tech, MyFundFlow) — the primary
+// role for the hero is whichever one started most recently.
+const current = experience
+  .filter((e) => e.data.current)
+  .sort((a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime())[0];
 ---
 
 <Layout title="About">
@@ -49,7 +53,7 @@ const current = experience.find((e) => e.data.current);
     <div data-reveal class="card p-6">
       <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Side business</p>
       <p class="font-medium">GS46 Tech</p>
-      <p class="text-sm text-[color:var(--color-muted)]">Founder, since Aug 2023</p>
+      <p class="text-sm text-[color:var(--color-muted)]">Owner, since Aug 2023</p>
     </div>
     <div data-reveal class="card p-6">
       <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Currently learning</p>

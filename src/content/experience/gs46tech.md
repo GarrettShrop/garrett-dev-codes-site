@@ -1,5 +1,5 @@
 ---
-role: "Founder & Lead Developer"
+role: "Owner"
 org: "GS46 Tech"
 orgUrl: "https://gs46tech.com"
 location: "Central Coast, CA"

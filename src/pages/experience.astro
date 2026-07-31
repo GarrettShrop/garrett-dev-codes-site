@@ -4,11 +4,12 @@ import { getCollection, render } from 'astro:content';
 
 const entries = await getCollection('experience');
 
-function sortKey(e: (typeof entries)[number]) {
-  return e.data.current ? Number.MAX_SAFE_INTEGER : new Date(e.data.startDate).getTime();
-}
-
-const sorted = entries.sort((a, b) => sortKey(b) - sortKey(a));
+// Plain reverse-chronological by start date — with three concurrently
+// "current" entries (job, GS46 Tech, MyFundFlow), bucketing current-first
+// would wrongly rank a 2023 side project above a 2026 full-time role.
+const sorted = entries.sort(
+  (a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
+);
 const rendered = await Promise.all(sorted.map((entry) => render(entry)));
 
 function formatDate(value?: string) {

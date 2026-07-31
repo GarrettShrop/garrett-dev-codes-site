@@ -1,6 +1,7 @@
 ---
 role: "Business Intelligence Analyst 2"
 org: "Enlyte"
+location: "San Diego, CA (Remote)"
 startDate: "2026-02-01"
 endDate: "2026-07-17"
 current: false
