@@ -1,5 +1,11 @@
 ---
 import { site } from '../data/site';
+
+// Base64-encode the address so it isn't sitting in the raw HTML as plain
+// mailto:you@example.com text for basic scraper bots to regex out — the
+// real href is only built client-side, at click time. Doesn't stop a
+// determined scraper that also runs JS, but cuts out the cheap ones.
+const emailEncoded = Buffer.from(site.email).toString('base64');
 ---
 
 <footer class="border-t border-[color:var(--color-line)] mt-24">
@@ -10,7 +16,19 @@ import { site } from '../data/site';
       <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">LinkedIn</a>
       <a href={site.links.youtube} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">YouTube</a>
       <a href={site.links.twitter} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">X</a>
-      <a href={`mailto:${site.email}`} class="hover:text-[color:var(--color-lime)]">Email</a>
+      <a href="#" data-email={emailEncoded} class="hover:text-[color:var(--color-lime)]">Email</a>
     </div>
   </div>
 </footer>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-email]').forEach((el) => {
+    const encoded = el.getAttribute('data-email');
+    if (!encoded) return;
+    try {
+      el.href = `mailto:${atob(encoded)}`;
+    } catch {
+      // Decoding failed — leave the link as a no-op rather than break the page.
+    }
+  });
+</script>

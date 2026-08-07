@@ -45,12 +45,19 @@ function boldToHtml(text: string): string {
   </section>
 
   <section class="max-w-5xl mx-auto px-6 pb-16">
-    <div data-reveal class="card p-8">
-      <p class="mono text-xs text-[color:var(--color-muted)] mb-4">// about</p>
-      <div
-        class="space-y-4 text-[color:var(--color-paper)] leading-relaxed whitespace-pre-line [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold"
-        set:html={boldToHtml(site.bio)}
+    <div data-reveal class="card p-8 flex flex-col sm:flex-row gap-8">
+      <img
+        src="/headshot.jpg"
+        alt="Garrett Shropshire"
+        class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-[color:var(--color-line)] shrink-0"
       />
+      <div>
+        <p class="mono text-xs text-[color:var(--color-muted)] mb-4">// about</p>
+        <div
+          class="space-y-4 text-[color:var(--color-paper)] leading-relaxed whitespace-pre-line [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold"
+          set:html={boldToHtml(site.bio)}
+        />
+      </div>
     </div>
   </section>
 
