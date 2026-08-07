@@ -1,6 +1,7 @@
 ---
 role: "Software Engineer Intern"
 org: "dKomplex IT"
+logo: "/logos/dkomplex.jpeg"
 location: "Monterey, CA (Hybrid)"
 startDate: "2023-08-01"
 endDate: "2024-03-01"

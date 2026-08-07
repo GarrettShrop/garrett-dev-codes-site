@@ -1,6 +1,7 @@
 ---
 role: "AI Solutions Analyst"
 org: "BRC Group Holdings Inc."
+logo: "/logos/brc-group-holdings.jpeg"
 location: "Los Angeles, CA (Remote)"
 startDate: "2026-07-27"
 current: true

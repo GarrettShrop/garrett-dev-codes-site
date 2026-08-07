@@ -1,6 +1,7 @@
 ---
 role: "Software Engineer 1"
 org: "dKomplex IT"
+logo: "/logos/dkomplex.jpeg"
 location: "Monterey County, CA (Remote)"
 startDate: "2024-03-01"
 endDate: "2025-03-01"
