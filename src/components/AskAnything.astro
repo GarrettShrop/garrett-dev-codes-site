@@ -57,31 +57,91 @@ const SUGGESTED_QUESTION = "What has Garrett built recently?";
   });
   input?.addEventListener('input', markTouched);
 
-  // Assistant replies reference this site's own pages and Garrett's real
-  // profile URLs (per the chat's knowledge base) — turn those into clickable
-  // links. HTML-escape first, then link only well-defined URL/email/path
-  // patterns in a single regex pass, so nothing from model output can inject
-  // markup even though the result is inserted via innerHTML.
+  // Assistant replies may use **bold** for key terms and "- " bullet lines
+  // for structure (per the chat's knowledge base rules), and reference this
+  // site's own pages and Garrett's real profile URLs — all of that gets
+  // rendered properly here instead of showing as literal markdown/plain
+  // text. HTML-escape first, then only well-defined bold/link patterns are
+  // turned into markup, so nothing from model output can inject arbitrary
+  // HTML even though the result is inserted via innerHTML.
   const KNOWN_DOMAINS =
     'github\\.com/GarrettShrop|(?:www\\.)?linkedin\\.com/in/garrett-shropshire|(?:www\\.)?youtube\\.com/@GS46Codes|x\\.com/GarrettDevCodes|gs46tech\\.com|myfundflow\\.app|limoscenellc\\.com|advisors360pwm\\.com';
   const LINK_PATTERN = new RegExp(
-    `(https?://[^\\s<]+)|([\\w.+-]+@[\\w-]+\\.[\\w.-]+)|(?<![\\w/])(/(?:projects|experience|skills|streaming))(?![\\w/])|\\b(${KNOWN_DOMAINS})`,
+    // Email TLD is letters-only (not the looser [\w.-]+) so a sentence-ending
+    // period after an address ("...gmail.com.") isn't swallowed into the link.
+    `(https?://[^\\s<]+)|([\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,})|(?<![\\w/])(/(?:projects|experience|skills|streaming))(?![\\w/])|\\b(${KNOWN_DOMAINS})`,
     'g',
   );
 
-  function linkify(text: string): string {
-    const escaped = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-    return escaped.replace(LINK_PATTERN, (match, url, email, path, domain) => {
+  function escapeHtml(text: string): string {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  // Runs on already-escaped text. Bold first, then links — a URL wrapped in
+  // **bold** just ends up with the <a> nested inside the <strong>, which is
+  // valid and renders fine.
+  function inlineFormat(escapedText: string): string {
+    const bolded = escapedText.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    return bolded.replace(LINK_PATTERN, (match, url, email, path, domain) => {
       const linkClass = 'underline decoration-dotted hover:text-[color:var(--color-lime)]';
-      if (url) return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="${linkClass}">${url}</a>`;
+      if (url) {
+        // A URL at the end of a sentence greedily swallows the trailing
+        // punctuation ("...gs46tech.com."). Strip it off the link and put
+        // it back after, so the sentence keeps its period.
+        const trailingMatch = url.match(/[.,;:!?]+$/);
+        const trailing = trailingMatch ? trailingMatch[0] : '';
+        const cleanUrl = trailing ? url.slice(0, -trailing.length) : url;
+        return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="${linkClass}">${cleanUrl}</a>${trailing}`;
+      }
       if (email) return `<a href="mailto:${email}" class="${linkClass}">${email}</a>`;
       if (path) return `<a href="${path}" class="${linkClass}">${path}</a>`;
       if (domain) return `<a href="https://${domain}" target="_blank" rel="noopener noreferrer" class="${linkClass}">${domain}</a>`;
       return match;
     });
+  }
+
+  // Splits a reply into paragraph/list blocks on the raw (pre-inline-format)
+  // text, so bold/link matching in inlineFormat never has to reason about
+  // block-level tags — it only ever sees plain escaped text per block.
+  function formatReply(raw: string): string {
+    const lines = escapeHtml(raw).split('\n');
+    const blocks: string[] = [];
+    let paragraph: string[] = [];
+    let listItems: string[] = [];
+
+    const flushParagraph = () => {
+      if (paragraph.length) {
+        blocks.push(`<p>${inlineFormat(paragraph.join(' '))}</p>`);
+        paragraph = [];
+      }
+    };
+    const flushList = () => {
+      if (listItems.length) {
+        blocks.push(`<ul class="list-disc pl-5 space-y-1">${listItems.map((item) => `<li>${inlineFormat(item)}</li>`).join('')}</ul>`);
+        listItems = [];
+      }
+    };
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line) {
+        flushParagraph();
+        flushList();
+        continue;
+      }
+      const bullet = line.match(/^[-*]\s+(.*)$/);
+      if (bullet) {
+        flushParagraph();
+        listItems.push(bullet[1]);
+      } else {
+        flushList();
+        paragraph.push(line);
+      }
+    }
+    flushParagraph();
+    flushList();
+
+    return blocks.join('');
   }
 
   function renderMessage(role: Message['role'], content: string) {
@@ -91,9 +151,9 @@ const SUGGESTED_QUESTION = "What has Garrett built recently?";
     bubble.className =
       role === 'user'
         ? 'ml-auto max-w-[85%] lg:max-w-2xl rounded-lg rounded-br-sm bg-[color:var(--color-lime)] text-[color:var(--color-ink)] px-4 py-2.5'
-        : 'mr-auto max-w-[85%] lg:max-w-2xl rounded-lg rounded-bl-sm bg-[color:var(--color-panel)] border border-[color:var(--color-line)] px-4 py-2.5 text-[color:var(--color-paper)]';
+        : 'mr-auto max-w-[85%] lg:max-w-2xl rounded-lg rounded-bl-sm bg-[color:var(--color-panel)] border border-[color:var(--color-line)] px-4 py-2.5 text-[color:var(--color-paper)] [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold [&_p:not(:last-child)]:mb-2 [&_ul:not(:last-child)]:mb-2';
     if (role === 'assistant') {
-      bubble.innerHTML = linkify(content);
+      bubble.innerHTML = formatReply(content);
     } else {
       bubble.textContent = content;
     }
