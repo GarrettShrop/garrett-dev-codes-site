@@ -5,6 +5,11 @@ import knowledge from '../../data/chat-knowledge.md?raw';
 export const prerender = false;
 
 const MAX_MESSAGE_LENGTH = 500;
+// Assistant replies are echoed back as history on the next turn. max_tokens:400
+// below can produce replies well past 500 chars, so they need their own, looser
+// cap — otherwise a normal-length answer breaks the very next message a visitor
+// sends.
+const MAX_ASSISTANT_MESSAGE_LENGTH = 2000;
 const MAX_MESSAGES = 12;
 const MODEL = 'claude-haiku-4-5-20251001';
 
@@ -132,7 +137,7 @@ function validateMessages(input: unknown): ChatMessage[] | null {
       (item.role !== 'user' && item.role !== 'assistant') ||
       typeof item.content !== 'string' ||
       item.content.length === 0 ||
-      item.content.length > MAX_MESSAGE_LENGTH
+      item.content.length > (item.role === 'user' ? MAX_MESSAGE_LENGTH : MAX_ASSISTANT_MESSAGE_LENGTH)
     ) {
       return null;
     }
