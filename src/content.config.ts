@@ -11,6 +11,9 @@ const experience = defineCollection({
     startDate: z.string(),
     endDate: z.string().optional(),
     current: z.boolean().default(false),
+    // 'job' = W-2 employment history; 'venture' = concurrent side businesses/projects
+    // (GS46 Tech, MyFundFlow) that shouldn't interleave chronologically with jobs.
+    track: z.enum(['job', 'venture']).default('job'),
   }),
 });
 

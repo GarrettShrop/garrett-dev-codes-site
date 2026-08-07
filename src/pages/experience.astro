@@ -3,14 +3,17 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 
 const entries = await getCollection('experience');
+const byStartDateDesc = (a: (typeof entries)[number], b: (typeof entries)[number]) =>
+  new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime();
 
-// Plain reverse-chronological by start date — with three concurrently
-// "current" entries (job, GS46 Tech, MyFundFlow), bucketing current-first
-// would wrongly rank a 2023 side project above a 2026 full-time role.
-const sorted = entries.sort(
-  (a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
-);
-const rendered = await Promise.all(sorted.map((entry) => render(entry)));
+// Jobs (W-2 history) get the main timeline; ventures (GS46 Tech, MyFundFlow) run
+// concurrently with those jobs and would otherwise wedge a 2023 side project
+// between 2026 roles if sorted into one flat chronological list.
+const jobs = entries.filter((e) => e.data.track === 'job').sort(byStartDateDesc);
+const ventures = entries.filter((e) => e.data.track === 'venture').sort(byStartDateDesc);
+
+const renderedJobs = await Promise.all(jobs.map((entry) => render(entry)));
+const renderedVentures = await Promise.all(ventures.map((entry) => render(entry)));
 
 function formatDate(value?: string) {
   if (!value) return 'Present';
@@ -29,22 +32,32 @@ function formatDate(value?: string) {
 
     <ol class="space-y-8 border-l border-[color:var(--color-line)] pl-6">
       {
-        sorted.map((entry, i) => {
-          const { Content } = rendered[i];
+        jobs.map((entry, i) => {
+          const { Content } = renderedJobs[i];
           return (
             <li data-reveal class="relative">
-              <span class="absolute -left-[1.65rem] top-7 w-2.5 h-2.5 rounded-full bg-[color:var(--color-lime)]" />
-              <div class="card p-5">
-                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <span
+                class:list={[
+                  'absolute -left-[1.65rem] top-7 w-2.5 h-2.5 rounded-full',
+                  entry.data.current
+                    ? 'bg-[color:var(--color-lime)] ring-2 ring-offset-2 ring-offset-[color:var(--color-ink)] ring-[color:var(--color-lime)]/40'
+                    : 'bg-[color:var(--color-muted)]',
+                ]}
+              />
+              <div class:list={['card p-5', entry.data.current && 'border-[color:var(--color-lime)]/40']}>
+                <div class="flex items-center gap-2 mb-1">
                   <h2 class="text-lg font-medium">{entry.data.role}</h2>
+                  {entry.data.current && <span class="tag">Current</span>}
+                </div>
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
+                  <p class="text-sm text-[color:var(--color-lime)]">
+                    {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
+                    {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
+                  </p>
                   <p class="mono text-xs text-[color:var(--color-muted)]">
                     {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
                   </p>
                 </div>
-                <p class="text-sm text-[color:var(--color-lime)] mb-3">
-                  {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
-                  {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
-                </p>
                 <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 text-sm leading-relaxed">
                   <Content />
                 </div>
@@ -54,5 +67,38 @@ function formatDate(value?: string) {
         })
       }
     </ol>
+
+    {
+      ventures.length > 0 && (
+        <div class="mt-16">
+          <p class="mono text-sm text-[color:var(--color-lime)] mb-2 text-scrim">// side ventures</p>
+          <p class="text-sm text-[color:var(--color-muted)] mb-6">Built and run alongside the day job.</p>
+          <div class="grid sm:grid-cols-2 gap-5">
+            {ventures.map((entry, i) => {
+              const { Content } = renderedVentures[i];
+              return (
+                <div data-reveal class="card p-5">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h2 class="text-lg font-medium">{entry.data.role}</h2>
+                  </div>
+                  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
+                    <p class="text-sm text-[color:var(--color-lime)]">
+                      {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
+                      {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
+                    </p>
+                    <p class="mono text-xs text-[color:var(--color-muted)]">
+                      {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
+                    </p>
+                  </div>
+                  <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 text-sm leading-relaxed">
+                    <Content />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )
+    }
   </section>
 </Layout>
