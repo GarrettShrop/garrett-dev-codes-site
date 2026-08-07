@@ -7,6 +7,9 @@ const experience = defineCollection({
     role: z.string(),
     org: z.string(),
     orgUrl: z.string().url().optional(),
+    // Path to a logo image in /public (e.g. "/logos/dkomplex.svg"). Optional —
+    // entries without one just render without a logo.
+    logo: z.string().optional(),
     location: z.string().optional(),
     startDate: z.string(),
     endDate: z.string().optional(),

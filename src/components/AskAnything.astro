@@ -25,7 +25,7 @@ const SUGGESTED_QUESTION = "What has Garrett built recently?";
     Ask anything about Garrett's background, skills, or projects.
   </p>
 
-  <div data-ask-messages class="hidden mt-6 space-y-3 text-sm max-w-2xl"></div>
+  <div data-ask-messages class="hidden mt-6 space-y-3 text-sm"></div>
 </div>
 
 <script>
@@ -57,15 +57,46 @@ const SUGGESTED_QUESTION = "What has Garrett built recently?";
   });
   input?.addEventListener('input', markTouched);
 
+  // Assistant replies reference this site's own pages and Garrett's real
+  // profile URLs (per the chat's knowledge base) — turn those into clickable
+  // links. HTML-escape first, then link only well-defined URL/email/path
+  // patterns in a single regex pass, so nothing from model output can inject
+  // markup even though the result is inserted via innerHTML.
+  const KNOWN_DOMAINS =
+    'github\\.com/GarrettShrop|(?:www\\.)?linkedin\\.com/in/garrett-shropshire|(?:www\\.)?youtube\\.com/@GS46Codes|x\\.com/GarrettDevCodes|gs46tech\\.com|myfundflow\\.app|limoscenellc\\.com|advisors360pwm\\.com';
+  const LINK_PATTERN = new RegExp(
+    `(https?://[^\\s<]+)|([\\w.+-]+@[\\w-]+\\.[\\w.-]+)|(?<![\\w/])(/(?:projects|experience|skills|streaming))(?![\\w/])|\\b(${KNOWN_DOMAINS})`,
+    'g',
+  );
+
+  function linkify(text: string): string {
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    return escaped.replace(LINK_PATTERN, (match, url, email, path, domain) => {
+      const linkClass = 'underline decoration-dotted hover:text-[color:var(--color-lime)]';
+      if (url) return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="${linkClass}">${url}</a>`;
+      if (email) return `<a href="mailto:${email}" class="${linkClass}">${email}</a>`;
+      if (path) return `<a href="${path}" class="${linkClass}">${path}</a>`;
+      if (domain) return `<a href="https://${domain}" target="_blank" rel="noopener noreferrer" class="${linkClass}">${domain}</a>`;
+      return match;
+    });
+  }
+
   function renderMessage(role: Message['role'], content: string) {
     if (!messages) return;
     messages.classList.remove('hidden');
     const bubble = document.createElement('div');
     bubble.className =
       role === 'user'
-        ? 'ml-auto max-w-[85%] rounded-lg rounded-br-sm bg-[color:var(--color-lime)] text-[color:var(--color-ink)] px-4 py-2.5'
-        : 'mr-auto max-w-[85%] rounded-lg rounded-bl-sm bg-[color:var(--color-panel)] border border-[color:var(--color-line)] px-4 py-2.5 text-[color:var(--color-paper)]';
-    bubble.textContent = content;
+        ? 'ml-auto max-w-[85%] lg:max-w-2xl rounded-lg rounded-br-sm bg-[color:var(--color-lime)] text-[color:var(--color-ink)] px-4 py-2.5'
+        : 'mr-auto max-w-[85%] lg:max-w-2xl rounded-lg rounded-bl-sm bg-[color:var(--color-panel)] border border-[color:var(--color-line)] px-4 py-2.5 text-[color:var(--color-paper)]';
+    if (role === 'assistant') {
+      bubble.innerHTML = linkify(content);
+    } else {
+      bubble.textContent = content;
+    }
     messages.appendChild(bubble);
   }
 
