@@ -95,6 +95,20 @@ focused on full-stack development and algorithms.
   at advisors360pwm.com. That domain is currently still run by the client's
   previous provider — the new build isn't live yet, so don't imply the
   current site at that domain is Garrett's work.
+- **OpenClaw**: a self-built, locally hosted multi-agent orchestration
+  system. A central orchestrator agent coordinated specialized sub-agents
+  across Claude, ChatGPT, Google Gemini, and a local Ollama model, each
+  with its own scope, skills, and SKILL.md definitions — some generating
+  work, others auditing it, plus a dedicated security agent that monitored
+  the system and delivered scheduled status updates. Every output passed
+  through the orchestrator and a human review step (human-in-the-loop and
+  human-on-the-loop by design), with approved results feeding back into
+  refined, persistent agent memory.
+- **Home Lab**: a self-managed home network and private cloud — a TP-Link
+  edge router, a server rack, and a mini PC running Proxmox hosting
+  self-managed services including Nextcloud for personal cloud storage.
+  Network segmented into VLANs by IP range, fully isolating a guest
+  network from a separate lab network with its own access rules.
 
 ## Skills
 

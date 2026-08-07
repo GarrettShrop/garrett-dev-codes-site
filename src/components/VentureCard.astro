@@ -1,0 +1,43 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'experience'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+function formatDate(value?: string) {
+  if (!value) return 'Present';
+  const [year, month] = value.split('-');
+  const date = new Date(Number(year), Number(month) - 1);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+---
+
+<div data-reveal class="card p-5">
+  <div class="flex items-center gap-3 mb-1">
+    {entry.data.logo && (
+      <img
+        src={entry.data.logo}
+        alt={`${entry.data.org} logo`}
+        class="h-8 w-auto max-w-28 object-contain bg-white/5 rounded p-1 shrink-0"
+      />
+    )}
+    <h2 class="text-lg font-medium">{entry.data.role}</h2>
+  </div>
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
+    <p class="text-sm text-[color:var(--color-lime)]">
+      {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
+      {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
+    </p>
+    <p class="mono text-xs text-[color:var(--color-muted)]">
+      {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
+    </p>
+  </div>
+  <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold text-sm leading-relaxed">
+    <Content />
+  </div>
+</div>

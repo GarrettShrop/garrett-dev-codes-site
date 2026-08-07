@@ -2,6 +2,7 @@
 role: "Founder & Lead Developer"
 org: "MyFundFlow"
 orgUrl: "https://myfundflow.app"
+logo: "/logos/myfundflow.png"
 startDate: "2024-01-01"
 current: true
 track: "venture"

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import VentureCard from '../components/VentureCard.astro';
 import { getCollection, render } from 'astro:content';
 
 const entries = await getCollection('experience');
@@ -12,8 +13,15 @@ const byStartDateDesc = (a: (typeof entries)[number], b: (typeof entries)[number
 const jobs = entries.filter((e) => e.data.track === 'job').sort(byStartDateDesc);
 const ventures = entries.filter((e) => e.data.track === 'venture').sort(byStartDateDesc);
 
+// On wide screens the two ventures run as persistent side rails flanking the
+// job timeline (MyFundFlow left, GS46 Tech right) instead of a stacked
+// section below — picked by org rather than array position so this doesn't
+// silently break if a third venture is ever added.
+const myFundFlow = ventures.find((e) => e.data.org === 'MyFundFlow');
+const gs46Tech = ventures.find((e) => e.data.org === 'GS46 Tech');
+const otherVentures = ventures.filter((e) => e !== myFundFlow && e !== gs46Tech);
+
 const renderedJobs = await Promise.all(jobs.map((entry) => render(entry)));
-const renderedVentures = await Promise.all(ventures.map((entry) => render(entry)));
 
 function formatDate(value?: string) {
   if (!value) return 'Present';
@@ -24,86 +32,94 @@ function formatDate(value?: string) {
 ---
 
 <Layout title="Experience">
-  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
-    <div class="text-scrim">
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-24">
+    <div class="text-scrim max-w-3xl">
       <p class="mono text-sm text-[color:var(--color-lime)] mb-2">// experience</p>
       <h1 class="text-4xl font-semibold mb-10">Where I've worked</h1>
     </div>
 
-    <ol class="space-y-8 border-l border-[color:var(--color-line)] pl-6">
-      {
-        jobs.map((entry, i) => {
-          const { Content } = renderedJobs[i];
-          return (
-            <li data-reveal class="relative">
-              <span
-                class:list={[
-                  'absolute -left-[1.65rem] top-7 w-2.5 h-2.5 rounded-full',
-                  entry.data.current
-                    ? 'bg-[color:var(--color-lime)] ring-2 ring-offset-2 ring-offset-[color:var(--color-ink)] ring-[color:var(--color-lime)]/40'
-                    : 'bg-[color:var(--color-muted)]',
-                ]}
-              />
-              <div class:list={['card p-5', entry.data.current && 'border-[color:var(--color-lime)]/40']}>
-                <div class="flex items-center gap-3 mb-1">
-                  {entry.data.logo && (
-                    <img src={entry.data.logo} alt={`${entry.data.org} logo`} class="h-8 w-8 rounded object-contain bg-white/5 p-1 shrink-0" />
-                  )}
-                  <div class="flex items-center gap-2">
-                    <h2 class="text-lg font-medium">{entry.data.role}</h2>
-                    {entry.data.current && <span class="tag">Current</span>}
-                  </div>
-                </div>
-                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
-                  <p class="text-sm text-[color:var(--color-lime)]">
-                    {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
-                    {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
-                  </p>
-                  <p class="mono text-xs text-[color:var(--color-muted)]">
-                    {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
-                  </p>
-                </div>
-                <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold text-sm leading-relaxed">
-                  <Content />
-                </div>
-              </div>
-            </li>
-          );
-        })
-      }
-    </ol>
+    <div class="lg:grid lg:grid-cols-[240px_minmax(0,1fr)_240px] lg:gap-6">
+      {/* Left rail — MyFundFlow. Desktop only; mobile gets it in the stacked section below. */}
+      <aside class="hidden lg:block">
+        {myFundFlow && (
+          <div class="sticky top-24">
+            <VentureCard entry={myFundFlow} />
+          </div>
+        )}
+      </aside>
 
+      <div class="max-w-3xl mx-auto lg:mx-0 lg:max-w-none">
+        <ol class="space-y-8 border-l border-[color:var(--color-line)] pl-6">
+          {
+            jobs.map((entry, i) => {
+              const { Content } = renderedJobs[i];
+              return (
+                <li data-reveal class="relative">
+                  <span
+                    class:list={[
+                      'absolute -left-[1.65rem] top-7 w-2.5 h-2.5 rounded-full',
+                      entry.data.current
+                        ? 'bg-[color:var(--color-lime)] ring-2 ring-offset-2 ring-offset-[color:var(--color-ink)] ring-[color:var(--color-lime)]/40'
+                        : 'bg-[color:var(--color-muted)]',
+                    ]}
+                  />
+                  <div class:list={['card p-5', entry.data.current && 'border-[color:var(--color-lime)]/40']}>
+                    <div class="flex items-center gap-3 mb-1">
+                      {entry.data.logo && (
+                        <img
+                          src={entry.data.logo}
+                          alt={`${entry.data.org} logo`}
+                          class="h-8 w-auto max-w-28 object-contain bg-white/5 rounded p-1 shrink-0"
+                        />
+                      )}
+                      <div class="flex items-center gap-2">
+                        <h2 class="text-lg font-medium">{entry.data.role}</h2>
+                        {entry.data.current && <span class="tag">Current</span>}
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
+                      <p class="text-sm text-[color:var(--color-lime)]">
+                        {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
+                        {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
+                      </p>
+                      <p class="mono text-xs text-[color:var(--color-muted)]">
+                        {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
+                      </p>
+                    </div>
+                    <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold text-sm leading-relaxed">
+                      <Content />
+                    </div>
+                  </div>
+                </li>
+              );
+            })
+          }
+        </ol>
+      </div>
+
+      {/* Right rail — GS46 Tech. Desktop only. */}
+      <aside class="hidden lg:block">
+        {gs46Tech && (
+          <div class="sticky top-24">
+            <VentureCard entry={gs46Tech} />
+          </div>
+        )}
+      </aside>
+    </div>
+
+    {/* Mobile/tablet: no room for side rails, so both ventures stack in their
+       own section below instead — same content, just not persistent. */}
     {
       ventures.length > 0 && (
-        <div class="mt-16">
+        <div class="lg:hidden mt-16 max-w-3xl">
           <p class="mono text-sm text-[color:var(--color-lime)] mb-2 text-scrim">// side ventures</p>
           <p class="text-sm text-[color:var(--color-muted)] mb-6">Built and run alongside the day job.</p>
           <div class="grid sm:grid-cols-2 gap-5">
-            {ventures.map((entry, i) => {
-              const { Content } = renderedVentures[i];
-              return (
-                <div data-reveal class="card p-5">
-                  <div class="flex items-center gap-3 mb-1">
-                    {entry.data.logo && (
-                      <img src={entry.data.logo} alt={`${entry.data.org} logo`} class="h-8 w-8 rounded object-contain bg-white/5 p-1 shrink-0" />
-                    )}
-                    <h2 class="text-lg font-medium">{entry.data.role}</h2>
-                  </div>
-                  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-3">
-                    <p class="text-sm text-[color:var(--color-lime)]">
-                      {entry.data.orgUrl ? <a href={entry.data.orgUrl} target="_blank" rel="noopener noreferrer">{entry.data.org}</a> : entry.data.org}
-                      {entry.data.location && <span class="text-[color:var(--color-muted)]"> · {entry.data.location}</span>}
-                    </p>
-                    <p class="mono text-xs text-[color:var(--color-muted)]">
-                      {formatDate(entry.data.startDate)} – {entry.data.current ? 'Present' : formatDate(entry.data.endDate)}
-                    </p>
-                  </div>
-                  <div class="prose-sm text-[color:var(--color-paper)] [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1.5 [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold text-sm leading-relaxed">
-                    <Content />
-                  </div>
-                </div>
-              );
-            })}
+            {[myFundFlow, gs46Tech, ...otherVentures]
+              .filter((e): e is NonNullable<typeof e> => Boolean(e))
+              .map((entry) => (
+                <VentureCard entry={entry} />
+              ))}
           </div>
         </div>
       )
