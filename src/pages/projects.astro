@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+// project.data.summary is static, author-controlled copy (not user input) —
+// escape first as defense in depth, then turn **bold** markers into <strong>
+// so key metrics/tech stand out from the rest of the summary.
+function boldToHtml(text: string): string {
+  const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
 ---
 
 <Layout title="Projects">
@@ -17,7 +25,10 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
         projects.map((project) => (
           <div data-reveal class="card p-6 flex flex-col">
             <h2 class="text-lg font-medium mb-2">{project.data.title}</h2>
-            <p class="text-sm text-[color:var(--color-muted)] leading-relaxed flex-1">{project.data.summary}</p>
+            <p
+              class="text-sm text-[color:var(--color-muted)] leading-relaxed flex-1 [&_strong]:text-[color:var(--color-lime)] [&_strong]:font-semibold"
+              set:html={boldToHtml(project.data.summary)}
+            />
             {project.data.tags.length > 0 && (
               <div class="flex flex-wrap gap-2 mt-4">
                 {project.data.tags.map((tag) => (
