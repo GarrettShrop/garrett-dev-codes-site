@@ -32,12 +32,11 @@ const current = new URL(Astro.request.url).pathname;
         ))
       }
     </ul>
-    <button
-      type="button"
-      data-chat-open
+    <a
+      href="/#ask"
       class="mono text-xs px-3 py-1.5 rounded-full border border-[color:var(--color-lime)] text-[color:var(--color-lime)] hover:bg-[color:var(--color-lime)] hover:text-[color:var(--color-ink)] transition-colors"
     >
       Ask me anything
-    </button>
+    </a>
   </nav>
 </header>

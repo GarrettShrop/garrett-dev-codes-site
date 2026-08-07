@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AskAnything from '../components/AskAnything.astro';
 import { site } from '../data/site';
 import { getCollection } from 'astro:content';
 
@@ -18,20 +19,20 @@ const current = experience
       Garrett Shropshire
     </h1>
     <p data-hero-item class="mt-4 text-xl text-[color:var(--color-muted)] max-w-2xl">
-      Software engineer, BI analyst, and one-person tech shop — currently
-      <span class="glow-text">{current?.data.role}</span> at <span class="text-[color:var(--color-paper)]">{current?.data.org}</span>.
+      Software engineer, BI analyst, AI adopter, and founder — currently <span class="glow-text">{current?.data.role}</span> at <span class="text-[color:var(--color-paper)]">{current?.data.org}</span>.
     </p>
 
-    <div data-hero-item class="mt-8 flex flex-wrap gap-3">
+    <div data-hero-item class="mt-8 max-w-2xl">
+      <AskAnything />
+    </div>
+
+    <div data-hero-item class="mt-6 flex flex-wrap gap-3">
       <a href="/experience" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
         View experience
       </a>
       <a href="/projects" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
         View projects
       </a>
-      <button type="button" data-chat-open class="mono text-sm px-4 py-2 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 transition-opacity">
-        Ask me anything →
-      </button>
     </div>
   </section>
 

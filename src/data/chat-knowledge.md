@@ -49,10 +49,11 @@ focused on full-stack development and algorithms.
   aren't public.
 - **Business Intelligence Analyst 2, Enlyte** (Feb 2026 – Jul 2026, San
   Diego/remote, healthcare/insurance claims): built an AI Usage Dashboard
-  in Hex tracking employee adoption across 10+ AI tools monthly, plus
-  supporting charts/tabular reporting for execs and senior leadership;
-  developed custom metrics and trend curves around claims penetration
-  rates by state and billing/service state; built and maintained a
+  in Hex ingesting and processing usage data across 10+ AI tools for
+  5,000+ employees, tracking adoption monthly plus supporting
+  charts/tabular reporting for execs and senior leadership; developed
+  custom metrics and void curves around claims penetration rates by
+  state and billing/service state; built and maintained a
   dashboard tracking contracting efforts to gauge contract renewal
   effectiveness and produce renewal estimates; had the highest Hex AI
   usage company-wide. Primary tools: Python, SQL, Snowflake, Hex AI, Azure

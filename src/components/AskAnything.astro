@@ -1,0 +1,120 @@
+---
+const SUGGESTED_QUESTION = "What has Garrett built recently?";
+---
+
+<div id="ask" class="scroll-mt-24">
+  <form data-ask-form class="relative">
+    <input
+      data-ask-input
+      type="text"
+      maxlength="500"
+      value={SUGGESTED_QUESTION}
+      aria-label="Ask a question about Garrett"
+      autocomplete="off"
+      class="w-full rounded-full bg-[color:var(--color-panel)] border border-[color:var(--color-line)] pl-6 pr-24 sm:pr-28 py-4 text-base text-[color:var(--color-muted)] focus:outline-none focus:border-[color:var(--color-lime)] transition-colors"
+    />
+    <button
+      type="submit"
+      data-ask-send
+      class="absolute right-2 top-1/2 -translate-y-1/2 mono text-sm px-4 sm:px-5 py-2.5 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+    >
+      Ask →
+    </button>
+  </form>
+  <p data-ask-hint class="mono text-xs text-[color:var(--color-muted)] mt-2 ml-2">
+    Ask anything about Garrett's background, skills, or projects.
+  </p>
+
+  <div data-ask-messages class="hidden mt-6 space-y-3 text-sm max-w-2xl"></div>
+</div>
+
+<script>
+  const MAX_TURNS = 12;
+
+  const form = document.querySelector<HTMLFormElement>('[data-ask-form]');
+  const input = document.querySelector<HTMLInputElement>('[data-ask-input]');
+  const sendButton = document.querySelector<HTMLButtonElement>('[data-ask-send]');
+  const messages = document.querySelector<HTMLDivElement>('[data-ask-messages]');
+  const hint = document.querySelector<HTMLParagraphElement>('[data-ask-hint]');
+
+  type Message = { role: 'user' | 'assistant'; content: string };
+  const history: Message[] = [];
+  let touched = false;
+
+  // The input starts pre-filled with a suggested question, dimmed so it reads
+  // as a suggestion rather than something the visitor typed. Selecting on
+  // focus means the first keystroke just replaces it; the dimming clears the
+  // moment they actually edit it, so it reads as "theirs" either way.
+  function markTouched() {
+    if (touched || !input) return;
+    touched = true;
+    input.classList.remove('text-[color:var(--color-muted)]');
+    input.classList.add('text-[color:var(--color-paper)]');
+  }
+
+  input?.addEventListener('focus', () => {
+    if (!touched) input.select();
+  });
+  input?.addEventListener('input', markTouched);
+
+  function renderMessage(role: Message['role'], content: string) {
+    if (!messages) return;
+    messages.classList.remove('hidden');
+    const bubble = document.createElement('div');
+    bubble.className =
+      role === 'user'
+        ? 'ml-auto max-w-[85%] rounded-lg rounded-br-sm bg-[color:var(--color-lime)] text-[color:var(--color-ink)] px-4 py-2.5'
+        : 'mr-auto max-w-[85%] rounded-lg rounded-bl-sm bg-[color:var(--color-panel)] border border-[color:var(--color-line)] px-4 py-2.5 text-[color:var(--color-paper)]';
+    bubble.textContent = content;
+    messages.appendChild(bubble);
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const text = input?.value.trim();
+    if (!text || !input || !sendButton) return;
+
+    markTouched();
+    renderMessage('user', text);
+    history.push({ role: 'user', content: text });
+    if (history.length > MAX_TURNS) history.splice(0, history.length - MAX_TURNS);
+
+    input.value = '';
+    input.disabled = true;
+    sendButton.disabled = true;
+    hint?.classList.add('hidden');
+
+    const thinking = document.createElement('p');
+    thinking.className = 'mr-auto text-[color:var(--color-muted)] mono text-xs';
+    thinking.textContent = 'thinking…';
+    messages?.appendChild(thinking);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+
+      thinking.remove();
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        renderMessage('assistant', err.error ?? 'Something went wrong on my end — try again in a moment.');
+        return;
+      }
+
+      const data = await response.json();
+      renderMessage('assistant', data.reply);
+      history.push({ role: 'assistant', content: data.reply });
+    } catch {
+      thinking.remove();
+      renderMessage('assistant', "Couldn't reach the server — check your connection and try again.");
+    } finally {
+      input.disabled = false;
+      sendButton.disabled = false;
+      input.placeholder = 'Ask a follow-up…';
+      input.focus();
+    }
+  });
+</script>
