@@ -33,15 +33,6 @@ function boldToHtml(text: string): string {
     <div data-hero-item class="mt-8">
       <AskAnything />
     </div>
-
-    <div data-hero-item class="mt-6 flex flex-wrap gap-3">
-      <a href="/experience" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
-        View experience
-      </a>
-      <a href="/projects" class="mono text-sm px-4 py-2 rounded-full border border-[color:var(--color-line)] hover:border-[color:var(--color-lime)] hover:text-[color:var(--color-lime)] transition-colors">
-        View projects
-      </a>
-    </div>
   </section>
 
   <section class="max-w-5xl mx-auto px-6 pb-16">
@@ -61,7 +52,7 @@ function boldToHtml(text: string): string {
     </div>
   </section>
 
-  <section class="max-w-5xl mx-auto px-6 pb-24 grid sm:grid-cols-3 gap-4">
+  <section class="max-w-5xl mx-auto px-6 pb-16 grid sm:grid-cols-3 gap-4">
     <div data-reveal class="card p-6">
       <p class="mono text-xs text-[color:var(--color-lime)] mb-2">Current role</p>
       <p class="font-medium">{current?.data.role}</p>
@@ -77,5 +68,30 @@ function boldToHtml(text: string): string {
       <p class="font-medium">Cybersecurity</p>
       <p class="text-sm text-[color:var(--color-muted)]">Plus deeper RAG + multi-agent work</p>
     </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-24 grid sm:grid-cols-2 gap-4">
+    <a
+      href="/experience"
+      class="card group p-6 hover:border-[color:var(--color-lime)]/40 transition-colors"
+    >
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">// experience</p>
+      <p class="font-medium flex items-center gap-2">
+        Full work history
+        <span class="transition-transform group-hover:translate-x-1">→</span>
+      </p>
+      <p class="text-sm text-[color:var(--color-muted)] mt-1">Every role, with dates and details.</p>
+    </a>
+    <a
+      href="/projects"
+      class="card group p-6 hover:border-[color:var(--color-lime)]/40 transition-colors"
+    >
+      <p class="mono text-xs text-[color:var(--color-lime)] mb-2">// projects</p>
+      <p class="font-medium flex items-center gap-2">
+        Things I've built
+        <span class="transition-transform group-hover:translate-x-1">→</span>
+      </p>
+      <p class="text-sm text-[color:var(--color-muted)] mt-1">MyFundFlow, GS46 Tech, OpenClaw, and more.</p>
+    </a>
   </section>
 </Layout>
