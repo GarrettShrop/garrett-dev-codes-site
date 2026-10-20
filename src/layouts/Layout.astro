@@ -12,6 +12,11 @@ const {
   title,
   description = 'Garrett Shropshire — software engineer, BI analyst, and builder of MyFundFlow and GS46 Tech.',
 } = Astro.props;
+
+// Unset in local/dev by default — only defined once a real GA4 measurement
+// ID is added as a Netlify env var, so the tag never fires against dev
+// traffic or before the property actually exists.
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 ---
 
 <!doctype html>
@@ -28,6 +33,19 @@ const {
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    {gaId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
