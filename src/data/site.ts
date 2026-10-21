@@ -58,7 +58,3 @@ export const skillGroups = [
     skills: ['Cybersecurity'],
   },
 ];
-
-// Curated recommendations for tools/platforms Garrett actually vouches for.
-// Empty until he has specific picks to stand behind — do not fabricate entries here.
-export const recommendedTools: { name: string; note: string; url?: string }[] = [];
