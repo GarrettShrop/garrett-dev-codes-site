@@ -27,6 +27,11 @@ export interface Resource {
    * per-video links yet, so the page falls back to those channels' URLs.
    */
   videos?: { label: string; url: string }[];
+  /**
+   * Tools only: a referral offer. `links` are the referral links; when omitted,
+   * `url` itself is the referral link. Shown with a "Referral link" disclosure.
+   */
+  referral?: { perk: string; links?: { label: string; url: string }[] };
   addedOn: string;
 }
 
@@ -58,7 +63,7 @@ export const sections: SectionInfo[] = [
   {
     id: 'tools',
     label: 'Tools I use and recommend',
-    intro: 'What I actually run.',
+    intro: 'What I actually run. Some links are referral links: you get a discount or a free trial, and I may get credit too.',
   },
   {
     id: 'vault',
@@ -198,9 +203,16 @@ export const resources: Resource[] = [
   {
     id: 'claude-code',
     section: 'tools',
-    title: 'Claude Code',
+    title: 'Claude Code and Cowork',
     url: 'https://code.claude.com/docs/en/overview',
-    description: 'Anthropic’s coding agent. I run it in the terminal.',
+    description: 'Anthropic’s agents. I run Claude Code in the terminal and Cowork in the Claude desktop app.',
+    referral: {
+      perk: 'A guest pass: 7 days of Claude Pro free (Claude Code and Cowork included) if you’re new to paid Claude. Limited passes, so it may run out.',
+      links: [
+        { label: 'Claude Code', url: 'https://claude.ai/referral/5fUULzuIYQ' },
+        { label: 'Cowork', url: 'https://claude.ai/referral/5fUULzuIYQ?s=cowork&v=apps' },
+      ],
+    },
     license: 'Not open source',
     addedOn: added,
   },
@@ -209,7 +221,7 @@ export const resources: Resource[] = [
     section: 'tools',
     title: 'Obsidian',
     url: 'https://obsidian.md/',
-    description: 'Where my notes live: plain markdown files on my own disk.',
+    description: 'Where I view my markdown files. It’s the easiest way to see how my agents are structuring my notes.',
     license: 'Not open source',
     addedOn: added,
   },
@@ -232,14 +244,6 @@ export const resources: Resource[] = [
     addedOn: added,
   },
   {
-    id: 'qwen',
-    section: 'tools',
-    title: 'Qwen',
-    url: 'https://qwen.ai/',
-    description: 'Open models from the Qwen team. The small ones run well on a home GPU.',
-    addedOn: added,
-  },
-  {
     id: 'ollama',
     section: 'tools',
     title: 'Ollama',
@@ -249,19 +253,12 @@ export const resources: Resource[] = [
     addedOn: added,
   },
   {
-    id: 'deepseek',
-    section: 'tools',
-    title: 'DeepSeek',
-    url: 'https://www.deepseek.com/',
-    description: 'Strong models I’ve tested in place of Claude on my own notes.',
-    addedOn: added,
-  },
-  {
     id: 'synthetic',
     section: 'tools',
     title: 'Synthetic',
-    url: 'https://synthetic.new/',
+    url: 'https://synthetic.new/?referral=ZMmjWezn',
     description: 'Hosted open-source models with an OpenAI-compatible API, so I can use them in my own tools.',
+    referral: { perk: 'Sign up with my link and get up to $10 off your first month.' },
     addedOn: added,
   },
   {
@@ -329,19 +326,27 @@ export const resources: Resource[] = [
   },
 ];
 
-/** The three checks I run before installing any skill. */
+/** What I do with every skill I download, before and after installing it. */
 export const skillReview = [
   {
     step: 'Source',
     text: 'Open the repo. Check the license, the last update and who maintains it. No license means you can link to it, not copy it.',
   },
   {
-    step: 'Read it',
-    text: 'Read the whole SKILL.md and every script it ships. Look for network calls, shell commands, file writes outside the project, and anything that touches keys or passwords.',
+    step: 'Download and read it',
+    text: 'Read the whole SKILL.md and every file it ships. Look for network calls, shell commands, file writes outside the project, and anything that touches keys or passwords.',
+  },
+  {
+    step: 'Scripts off by default',
+    text: 'Any plugin, hook or script stays turned off until I fully understand what it does and how I’d use it.',
   },
   {
     step: 'Test it',
-    text: 'Install it in an empty scratch folder with no real data. Run one task, watch what it touches, and keep it only if it did what it said and nothing more.',
+    text: 'Try it in an empty scratch folder with no real data. Run one task, watch what it touches, and keep it only if it did what it said and nothing more.',
+  },
+  {
+    step: 'Make it mine',
+    text: 'Customize the skill to my own structure and conventions, so it works better for how I actually work.',
   },
 ];
 

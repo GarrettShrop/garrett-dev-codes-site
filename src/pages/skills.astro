@@ -36,9 +36,7 @@ const tools = resources.filter((r) => r.section === 'tools');
         {
           tools.map((r) => (
             <a
-              href={r.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/resources#${r.id}`}
               class="tag hover:text-[color:var(--color-lime)]"
             >
               {r.title}
