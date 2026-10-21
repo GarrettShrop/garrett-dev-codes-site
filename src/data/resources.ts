@@ -132,7 +132,7 @@ export const resources: Resource[] = [
     section: 'skills',
     title: 'pstack (Cursor plugin)',
     url: 'https://github.com/cursor/plugins/tree/main/pstack',
-    description: 'A plugin in Cursor’s plugins repo full of engineering skills and principles. I’m pulling a lot from it.',
+    description: 'A plugin in Cursor’s plugins repo full of engineering skills and principles. I’m pulling a lot from it, and I like its unslop skill, which cuts AI filler out of writing.',
     license: 'MIT (pstack’s own LICENSE file)',
     addedOn: added,
   },
