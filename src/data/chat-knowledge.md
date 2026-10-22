@@ -16,7 +16,7 @@ He currently co-leads BRC Group Holdings Inc.'s AI initiative (finance
 industry) as an AI Solutions Analyst, based in Los Angeles, CA (remote),
 starting July 27, 2026 — working with business executives and leaders
 across the company to build automated workflows and processes powered by
-Claude and other frontier AI models to improve productivity and efficiency
+Claude to improve productivity and efficiency
 company-wide. Specifics of that work are internal to BRC Group Holdings
 and shouldn't be speculated about beyond this general description. Before that he was a Business
 Intelligence Analyst 2 at Enlyte (healthcare/insurance claims), based in
@@ -42,7 +42,7 @@ focused on full-stack development and algorithms.
 - **AI Solutions Analyst, BRC Group Holdings Inc.** (Jul 2026 – present,
   Los Angeles/remote, finance industry): co-leads the AI initiative, working with executives
   and business leaders to build automated workflows and processes using
-  Claude and other AI models to drive productivity and efficiency across
+  Claude to drive productivity and efficiency across
   the company. Built custom internal-only Claude skills for recurring
   automation tasks, and designed a custom context-graph system to improve
   the quality of AI-generated insights. Internal specifics beyond this
