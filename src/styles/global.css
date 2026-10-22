@@ -50,9 +50,11 @@
     background-size: auto, auto, 56px 56px, 56px 56px;
   }
 
+  /* Soft lime tint instead of a solid lime block: the Ask box pre-selects its
+     suggested question on focus, and a solid fill turned the whole field green. */
   ::selection {
-    background: var(--color-lime);
-    color: var(--color-ink);
+    background: rgba(200, 255, 94, 0.25);
+    color: var(--color-paper);
   }
 
   a {
