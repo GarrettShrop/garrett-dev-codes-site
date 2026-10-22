@@ -27,11 +27,25 @@ function boldToHtml(text: string): string {
       Garrett Shropshire
     </h1>
     <p data-hero-item class="mt-4 text-xl text-[color:var(--color-muted)] max-w-2xl">
-      Software engineer, BI analyst, AI adopter, and founder — currently <span class="glow-text">{current?.data.role}</span> at <span class="text-[color:var(--color-paper)]">{current?.data.org}</span>.
+      Software engineer, BI analyst, AI adopter, and founder — currently <span class="glow-text">{current?.data.role}</span> at <span class="text-[color:var(--color-paper)]">{current?.data.org}</span>{current?.data.org.endsWith('.') ? '' : '.'}
     </p>
 
     <div data-hero-item class="mt-8">
       <AskAnything />
+    </div>
+
+    <div data-hero-item class="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
+      <a
+        href={site.links.workWithMe}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="self-start mono text-sm px-5 py-2.5 rounded-full border border-[color:var(--color-lime)] text-[color:var(--color-lime)] hover:bg-[color:var(--color-lime)] hover:text-[color:var(--color-ink)] transition-colors"
+      >
+        Work with me →
+      </a>
+      <p class="text-sm text-[color:var(--color-muted)]">
+        Need a website, SEO or AI automation for your business? Get a free quote or book a time with GS46 Tech.
+      </p>
     </div>
   </section>
 

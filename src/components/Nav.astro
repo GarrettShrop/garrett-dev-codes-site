@@ -1,4 +1,6 @@
 ---
+import { site } from '../data/site';
+
 const links = [
   { href: '/', label: 'About' },
   { href: '/experience', label: 'Experience' },
@@ -16,7 +18,7 @@ const current = new URL(Astro.request.url).pathname;
     <a href="/" class="mono text-sm tracking-tight text-[color:var(--color-paper)]">
       <span class="glow-text">garrett</span>devcodes
     </a>
-    <ul class="hidden sm:flex items-center gap-6 text-sm">
+    <ul class="hidden lg:flex items-center gap-6 text-sm">
       {
         links.map((link) => (
           <li>
@@ -33,16 +35,26 @@ const current = new URL(Astro.request.url).pathname;
         ))
       }
     </ul>
-    <a
-      href="/#ask"
-      class="mono text-xs px-3 py-1.5 rounded-full border border-[color:var(--color-lime)] text-[color:var(--color-lime)] hover:bg-[color:var(--color-lime)] hover:text-[color:var(--color-ink)] transition-colors"
-    >
-      Ask me anything
-    </a>
+    <div class="flex items-center gap-2">
+      <a
+        href={site.links.workWithMe}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden lg:inline-flex mono text-xs px-3 py-1.5 rounded-full bg-[color:var(--color-lime)] text-[color:var(--color-ink)] hover:opacity-90 transition-opacity"
+      >
+        Work with me
+      </a>
+      <a
+        href="/#ask"
+        class="mono text-xs px-3 py-1.5 rounded-full border border-[color:var(--color-lime)] text-[color:var(--color-lime)] hover:bg-[color:var(--color-lime)] hover:text-[color:var(--color-ink)] transition-colors"
+      >
+        Ask me anything
+      </a>
+    </div>
   </nav>
   <nav
     aria-label="Main (mobile)"
-    class="sm:hidden flex flex-wrap gap-x-5 gap-y-1 px-6 pb-3 text-sm"
+    class="lg:hidden flex flex-wrap gap-x-5 gap-y-1 px-6 pb-3 text-sm"
   >
     {
       links.map((link) => (
@@ -57,5 +69,13 @@ const current = new URL(Astro.request.url).pathname;
         </a>
       ))
     }
+    <a
+      href={site.links.workWithMe}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mono text-[color:var(--color-lime)] hover:underline"
+    >
+      Work with me ↗
+    </a>
   </nav>
 </header>
