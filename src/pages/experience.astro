@@ -26,6 +26,8 @@ const renderedJobs = await Promise.all(jobs.map((entry) => render(entry)));
 function formatDate(value?: string) {
   if (!value) return 'Present';
   const [year, month] = value.split('-');
+  // Year-only dates ("2020") show just the year rather than an invented month.
+  if (!month) return year;
   const date = new Date(Number(year), Number(month) - 1);
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }

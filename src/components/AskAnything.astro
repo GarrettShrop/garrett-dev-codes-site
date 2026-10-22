@@ -69,7 +69,7 @@ const SUGGESTED_QUESTION = "What has Garrett built recently?";
   const LINK_PATTERN = new RegExp(
     // Email TLD is letters-only (not the looser [\w.-]+) so a sentence-ending
     // period after an address ("...gmail.com.") isn't swallowed into the link.
-    `(https?://[^\\s<]+)|([\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,})|(?<![\\w/])(/(?:projects|experience|skills|streaming))(?![\\w/])|\\b(${KNOWN_DOMAINS})`,
+    `(https?://[^\\s<]+)|([\\w.+-]+@[\\w-]+\\.[a-zA-Z]{2,})|(?<![\\w/])(/(?:projects|experience|skills|resources|streaming))(?![\\w/])|\\b(${KNOWN_DOMAINS})`,
     'g',
   );
 
