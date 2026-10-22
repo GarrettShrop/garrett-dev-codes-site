@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { skillGroups, recommendedTools } from '../data/site';
+import { skillGroups } from '../data/site';
+import { resources } from '../data/resources';
+
+const tools = resources.filter((r) => r.section === 'tools');
 ---
 
 <Layout title="Skills">
@@ -29,23 +32,22 @@ import { skillGroups, recommendedTools } from '../data/site';
   <section class="max-w-5xl mx-auto px-6 pb-24">
     <div data-reveal class="card p-8">
       <p class="mono text-xs text-[color:var(--color-lime)] mb-2">// tools I recommend</p>
-      {
-        recommendedTools.length === 0 ? (
-          <p class="text-sm text-[color:var(--color-muted)]">
-            Still curating this list — check back soon for the tools and platforms I'd actually
-            vouch for to a client or another dev.
-          </p>
-        ) : (
-          <ul class="space-y-3 text-sm">
-            {recommendedTools.map((tool) => (
-              <li>
-                <span class="font-medium">{tool.url ? <a href={tool.url} target="_blank" rel="noopener noreferrer" class="hover:text-[color:var(--color-lime)]">{tool.name}</a> : tool.name}</span>
-                <span class="text-[color:var(--color-muted)]"> — {tool.note}</span>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      <div class="flex flex-wrap gap-2 mb-5">
+        {
+          tools.map((r) => (
+            <a
+              href={`/resources#${r.id}`}
+              class="tag hover:text-[color:var(--color-lime)]"
+            >
+              {r.title}
+            </a>
+          ))
+        }
+      </div>
+      <div class="flex flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-2">
+        <a href="/resources#tools" class="mono text-sm text-[color:var(--color-lime)] hover:underline">Full list with notes →</a>
+        <a href="/resources#skills" class="mono text-sm text-[color:var(--color-lime)] hover:underline">Skills I use and recommend →</a>
+      </div>
     </div>
   </section>
 </Layout>
